@@ -5,13 +5,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Common URI data")
 public record UriDto(
         @Schema(description = "URI value"
-                ,example = "http://gna.bzblz/Male")
+                ,example = "http://gna.bzblz/NameType/BirthName")
         String uri,
         @Schema(description = "URI title"
-                ,example = "Male")
+                ,example = "Birth Name")
         String title,
         @Schema(description = "URI description"
-                ,example = "Male gender.")
+                ,example = "Name given at birth")
         String description
 ) {
 }

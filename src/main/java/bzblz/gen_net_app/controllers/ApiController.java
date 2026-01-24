@@ -1,6 +1,7 @@
 package bzblz.gen_net_app.controllers;
 
 import bzblz.gen_net_app.dto.AccountDto;
+import bzblz.gen_net_app.dto.UriDto;
 import bzblz.gen_net_app.exceptions.AlreadyExistsException;
 import bzblz.gen_net_app.exceptions.AppException;
 import bzblz.gen_net_app.exceptions.UnexpectedRequestException;
@@ -9,13 +10,17 @@ import bzblz.gen_net_app.security.AccountDetails;
 import bzblz.gen_net_app.services.PersonService;
 import bzblz.gen_net_app.services.AccountService;
 import bzblz.gen_net_app.services.ProjectService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContext;
@@ -23,6 +28,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -67,9 +75,15 @@ public class ApiController {
     //---------------------------------------
     // Schema
     // get
-    @GetMapping("/schemas")
-    public Schemas getSchema(HttpSession session, @RequestParam(name="project_id", required = false) UUID projectId) {
-        return new Schemas();
+    @GetMapping("/dict_uri")
+    public UriDto[] getUri(HttpSession session, @RequestParam(name="project_id", required = false) UUID projectId) throws IOException {
+        try (InputStream is = getClass()
+                .getClassLoader()
+                .getResourceAsStream("dictionaries/uri.json")) {
+
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(is, UriDto[].class);
+        }
     }
     // Schema
     //---------------------------------------
