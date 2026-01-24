@@ -7,11 +7,10 @@ import bzblz.gen_net_app.exceptions.AlreadyExistsException;
 import bzblz.gen_net_app.exceptions.AppException;
 import bzblz.gen_net_app.exceptions.UnexpectedRequestException;
 import bzblz.gen_net_app.model.Account;
-import bzblz.gen_net_app.model.AccountRole;
+import bzblz.gen_net_app.model.AccountRoleType;
 import bzblz.gen_net_app.services.AccountService;
 import bzblz.gen_net_app.services.AuthenticationService;
 import bzblz.gen_net_app.services.ProjectService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +25,6 @@ import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -45,7 +43,7 @@ public class AuthenticationController {
     @PostMapping("/sign_up")
     public ResponseEntity<AccountDto> signUp(@RequestBody AccountSignUpDto accountSignUpDto, HttpServletResponse response) throws AlreadyExistsException, AppException {
         final Account account = new Account(accountSignUpDto);
-        account.setRole(AccountRole.ROLE_USER);
+        account.setRoleType(AccountRoleType.ROLE_USER);
         authenticationService.signUp(account);
         return ResponseEntity.ok(new AccountDto(account));
     }
@@ -53,7 +51,7 @@ public class AuthenticationController {
     @GetMapping("/account")
     public ResponseEntity<AccountDto> account(HttpServletRequest request) {
         Optional<Account> account = authenticationService.account();
-        return account.map(value -> ResponseEntity.ok(new AccountDto(value))).orElseGet(() -> ResponseEntity.notFound().build());
+        return account.map(value -> ResponseEntity.ok(new AccountDto(value))).orElseGet(() -> ResponseEntity.ok(new AccountDto()));
     }
     @PostMapping("/sign_in")
     public ResponseEntity<AccountDto> signIn(@RequestBody AccountSignInDto accountSignInDto,

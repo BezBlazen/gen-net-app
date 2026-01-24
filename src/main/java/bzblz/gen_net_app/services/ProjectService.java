@@ -2,8 +2,6 @@ package bzblz.gen_net_app.services;
 
 import bzblz.gen_net_app.exceptions.AlreadyExistsException;
 import bzblz.gen_net_app.exceptions.AppException;
-import bzblz.gen_net_app.model.Account;
-import bzblz.gen_net_app.model.AccountRole;
 import bzblz.gen_net_app.model.Project;
 import bzblz.gen_net_app.repositories.ProjectRepository;
 import javassist.NotFoundException;

@@ -4,10 +4,7 @@ import bzblz.gen_net_app.dto.AccountDto;
 import bzblz.gen_net_app.exceptions.AlreadyExistsException;
 import bzblz.gen_net_app.exceptions.AppException;
 import bzblz.gen_net_app.exceptions.UnexpectedRequestException;
-import bzblz.gen_net_app.model.Account;
-import bzblz.gen_net_app.model.AccountRole;
-import bzblz.gen_net_app.model.Person;
-import bzblz.gen_net_app.model.Project;
+import bzblz.gen_net_app.model.*;
 import bzblz.gen_net_app.security.AccountDetails;
 import bzblz.gen_net_app.services.PersonService;
 import bzblz.gen_net_app.services.AccountService;
@@ -68,11 +65,18 @@ public class ApiController {
         return new AccountDto(accountService.findByUsername(getCurrentAccountUsername()).orElse(null));
     }
     //---------------------------------------
+    // Schema
+    // get
+    @GetMapping("/schemas")
+    public Schemas getSchema(HttpSession session, @RequestParam(name="project_id", required = false) UUID projectId) {
+        return new Schemas();
+    }
+    // Schema
+    //---------------------------------------
     // Person
     // get
     @GetMapping("/persons")
     public List<Person> getPersonList(HttpSession session, @RequestParam(name="project_id", required = false) UUID projectId) {
-        System.out.println("getPersonList");
         SecurityContext context = SecurityContextHolder.getContext();
         if (context.getAuthentication() instanceof AnonymousAuthenticationToken) {
             // TODO Before create schema for anonymous user
@@ -90,7 +94,6 @@ public class ApiController {
     }
     @GetMapping("/persons/{personId}")
     public Person getPerson(@PathVariable UUID personId) throws UnexpectedRequestException, NotFoundException {
-        System.out.println("getPerson");
         final Person person = personService.findOne(personId);
         checkProject(person.getProjectId());
         return person;
@@ -132,7 +135,7 @@ public class ApiController {
                                HttpServletResponse response) throws AppException, UnexpectedRequestException, AlreadyExistsException {
         final Optional<Account> optionalAccount = getCurrentAccount();
         final Account account = optionalAccount.isPresent() ? optionalAccount.get() : authenticationController.newSession(request, response);
-        if (account.getRole() == AccountRole.ROLE_SESSION && !projectService.findAllByAccountId(account.getId()).isEmpty())
+        if (account.getRoleType() == AccountRoleType.ROLE_SESSION && !projectService.findAllByAccountId(account.getId()).isEmpty())
             throw new AppException("Log in to create a more projects");
         return projectService.add(account.getId(), project.getTitle());
     }

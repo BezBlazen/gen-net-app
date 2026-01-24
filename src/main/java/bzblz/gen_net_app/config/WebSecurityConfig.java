@@ -74,6 +74,7 @@ public class WebSecurityConfig {
 //                        .requestMatchers(HttpMethod.GET, "/docs/swagger-ui/*").permitAll()
 //                        .requestMatchers(HttpMethod.GET, "/v3/api-docs.yaml").permitAll()
                         .requestMatchers("/api/v1/auth/new_session").anonymous()
+                        .requestMatchers("/api/v1/auth/account").permitAll()
                         .requestMatchers("/api/v1/auth/sign_in", "/api/v1/auth/sign_up").hasAnyRole("ANONYMOUS", "SESSION")
                         .anyRequest().authenticated()
                 )

@@ -1,21 +1,24 @@
 package bzblz.gen_net_app.dto;
 
 import bzblz.gen_net_app.model.Account;
+import bzblz.gen_net_app.model.AccountRoleType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data
 @NoArgsConstructor
-@Setter
-@Getter
+@Schema(description = "Account DTO type for response")
 public class AccountDto {
+    @Schema(description = "Username for login",
+            example = "JohnSmith")
     private String username;
-    private String role;
+
+    @Schema(description = "Account role type")
+    private AccountRoleType roleType;
 
     public AccountDto(Account account) {
         this.username = account.getUsername();
-        this.role = account.getRole().name();
+        this.roleType = account.getRoleType();
     }
 }

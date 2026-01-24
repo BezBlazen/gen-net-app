@@ -1,12 +1,11 @@
 package bzblz.gen_net_app.services;
 
-import bzblz.gen_net_app.controllers.ApiController;
 import bzblz.gen_net_app.dto.AccountSignInDto;
 import bzblz.gen_net_app.exceptions.AlreadyExistsException;
 import bzblz.gen_net_app.exceptions.AppException;
 import bzblz.gen_net_app.exceptions.UnexpectedRequestException;
 import bzblz.gen_net_app.model.Account;
-import bzblz.gen_net_app.model.AccountRole;
+import bzblz.gen_net_app.model.AccountRoleType;
 import bzblz.gen_net_app.security.AccountDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -79,7 +78,7 @@ public class AuthenticationService {
         if (StringUtils.isBlank(request.getSession().getId()))
             throw new UnexpectedRequestException("Unexpected request");
 
-        Account account = new Account("~" + request.getSession().getId(), UUID.randomUUID().toString(), AccountRole.ROLE_SESSION);
+        Account account = new Account("~" + request.getSession().getId(), UUID.randomUUID().toString(), AccountRoleType.ROLE_SESSION);
         signUp(account.clone());
         return signIn(account, request, response);
     }

@@ -3,10 +3,9 @@ package bzblz.gen_net_app.services;
 import bzblz.gen_net_app.exceptions.AlreadyExistsException;
 import bzblz.gen_net_app.exceptions.AppException;
 import bzblz.gen_net_app.model.Account;
-import bzblz.gen_net_app.model.AccountRole;
+import bzblz.gen_net_app.model.AccountRoleType;
 import bzblz.gen_net_app.repositories.AccountRepository;
 import lombok.NonNull;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class AccountService {
@@ -34,7 +32,7 @@ public class AccountService {
         if (accountRepository.findByUsername(account.getUsername()).isPresent())
             throw new AlreadyExistsException(String.format("Account '%s' already exist", account.getUsername()));
 
-        account.setRole(AccountRole.ROLE_USER);
+        account.setRoleType(AccountRoleType.ROLE_USER);
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         accountRepository.save(account);
         projectService.add(account.getId(), "Default");
@@ -43,7 +41,7 @@ public class AccountService {
     }
     @Transactional
     public Account addAccount(@NonNull Account account) throws AlreadyExistsException, AppException {
-        if (account.getRole() == null)
+        if (account.getRoleType() == null)
             throw new AppException("Account role undefined");
         if (accountRepository.findByUsername(account.getUsername()).isPresent())
             throw new AlreadyExistsException(String.format("Account '%s' already exist", account.getUsername()));

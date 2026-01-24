@@ -1,21 +1,17 @@
 package bzblz.gen_net_app.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
+@Data
 @AllArgsConstructor
+@Schema(description = "Account DTO type for sign in.")
 public class AccountSignInDto {
+    @Schema(description = "Username for login",
+            example = "JohnSmith")
     private String username;
-    private String password;
 
-    @Override
-    public String toString() {
-        return "AccountSignInDto{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
+    @Schema(description = "Password")
+    private String password;
 }

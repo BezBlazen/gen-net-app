@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class AccountDetails implements UserDetails {
-    private Account account;
+    private final Account account;
 
     public AccountDetails(Account account) {
         this.account = account;
@@ -17,7 +17,7 @@ public class AccountDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(account.getRole().name()));
+        return List.of(new SimpleGrantedAuthority(account.getRoleType().name()));
     }
 
     @Override
