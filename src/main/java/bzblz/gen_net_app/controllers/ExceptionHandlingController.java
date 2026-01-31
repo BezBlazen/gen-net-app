@@ -38,28 +38,24 @@ public class ExceptionHandlingController {
     }
     @ExceptionHandler(AlreadyExistsException.class)
     public ResponseEntity<ErrorMessage> alreadyExistsException(AlreadyExistsException exception) {
-        System.out.println("alreadyExistsException");
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body(new ErrorMessage(exception.getMessage()));
     }
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorMessage> authenticationException(AuthenticationException exception) {
-        System.out.println("authenticationException");
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
                 .body(new ErrorMessage(exception.getMessage()));
     }
     @ExceptionHandler(UnexpectedRequestException.class)
     public ResponseEntity<ErrorMessage> unexpectedRequestException(UnexpectedRequestException exception) {
-        System.out.println("unexpectedRequestException");
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
                 .body(new ErrorMessage(exception.getMessage()));
     }
     @ExceptionHandler(AppException.class)
     public ResponseEntity<ErrorMessage> appException(AppException exception) {
-        System.out.println("appException");
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorMessage(exception.getMessage()));

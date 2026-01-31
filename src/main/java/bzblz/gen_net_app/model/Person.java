@@ -46,4 +46,7 @@ public class Person extends Subject {
 
     @Schema(description = "The names of the person.")
     private List<Name> names;
+
+    @Schema(description = "The facts of the person.")
+    private List<Fact> facts;
 }

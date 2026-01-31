@@ -1,7 +1,7 @@
 [
+  {"uri":"http://gna.bzblz/GenderType/Unknown","title":"Unknown","description":"Unknown gender."},
   {"uri":"http://gna.bzblz/GenderType/Male","title":"Male","description":"Male gender."},
   {"uri":"http://gna.bzblz/GenderType/Female","title":"Female","description":"Female gender."},
-  {"uri":"http://gna.bzblz/GenderType/Unknown","title":"Unknown","description":"Unknown gender."},
   {"uri":"http://gna.bzblz/NameType/BirthName","title": "Birth Name","description":"Name given at birth"},
   {"uri":"http://gna.bzblz/NameType/DeathName","title": "Death Name","description":"Name used at the time of death"},
   {"uri":"http://gna.bzblz/NameType/MarriedName","title": "Married Name","description":"Name accepted at marriage"},
